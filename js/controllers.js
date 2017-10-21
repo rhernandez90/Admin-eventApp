@@ -3535,7 +3535,7 @@ function passwordMeterCtrl($scope){
 function usersCtrl($scope,usersFactory,DTOptionsBuilder,notify){
     $scope.logIn = function(){
         //console.log("haremos login");
-    } 
+    }
 
     $scope.user = {
         ID_Empresa:5,
@@ -3668,4 +3668,3 @@ angular
     .controller('pdfCtrl', pdfCtrl)
     .controller('passwordMeterCtrl', passwordMeterCtrl)
     .controller('usersCtrl',usersCtrl);
-

@@ -51,7 +51,9 @@ function usersFactory($http,$q,loginService){
             method: "POST",
             url: `${url}/${route}`,
             data:data,
-            //headers: {'Content-Type': undefined}
+            //headers: {'Content-Type': false}
+            headers: {'Content-Type': undefined}
+            //headers: {'Content-Type': 'multipart/form-data'}
         });
         return request;
     };
