@@ -3578,6 +3578,15 @@ function usersCtrl($scope,usersFactory,DTOptionsBuilder,notify){
         fd.append('Correo_Electronico',$scope.user.Correo_Electronico);
         fd.append('Contrasena', $scope.user.Contrasena);
 
+        var dateTemp = new Date($scope.user.Fecha_Nacimiento);
+        var dia = dateTemp.getDate();
+        var mes = dateTemp.getMonth();
+        mes++;
+        var anio = dateTemp.getFullYear();
+        var nuevaFecha = dia + "/" + mes + "/" + anio;
+
+        fd.append('Fecha_Nacimiento', nuevaFecha);
+
         usersFactory.create(fd).then( res=>{
             if(res.status == 200){
                 if (res.data.id != undefined){
