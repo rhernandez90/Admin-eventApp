@@ -28,6 +28,15 @@ function usersFactory($http,$q,loginService){
     let route = "usuarios";
     var model = $q.defer();
 
+    model.logIn = function(data = {}){
+        var request = $http({
+            method: "GET",
+            url: `${url}/${route}`,
+            params:data,
+        });
+        return request;
+    };
+
 
     model.get = function(data = {}){
         var request = $http({

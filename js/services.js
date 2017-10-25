@@ -13,8 +13,8 @@ function loginService(){
         */
         this.getGlobalInfo = ()=>{
             return {
-                //url:'http://192.168.0.130/webapi/api'
-                url:'http://localhost:50193/api'
+                url:'http://192.168.0.130/webapi/api'
+                //url:'http://localhost:50193/api'
                 //url:'http://138.197.107.172:3000'
             }
         }

@@ -725,7 +725,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
         .state('logins', {
             url: "/logins",
             templateUrl: "views/login.html",
-            controller:usersCtrl,
+            controller:logInCtrl,
             data: { pageTitle: 'Login', specialClass: 'gray-bg' }
         })
         .state('login_two_columns', {

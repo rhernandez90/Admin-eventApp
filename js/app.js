@@ -9,7 +9,8 @@
         'ui.bootstrap',                 // Ui Bootstrap
         'pascalprecht.translate',       // Angular Translate
         'ngIdle',                       // Idle timer
-        'ngSanitize'                    // ngSanitize
+        'ngSanitize',                    // ngSanitize
+        'ngStorage'
     ])
 
     angular.module('inspinia').directive('fileModel', ['$parse', function ($parse) {

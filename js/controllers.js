@@ -3532,10 +3532,19 @@ function passwordMeterCtrl($scope){
 
 }
 
-function usersCtrl($scope,usersFactory,DTOptionsBuilder,notify){
+function logInCtrl($scope,usersFactory,$sessionStorage,$state){
     $scope.logIn = function(){
-        //console.log("haremos login");
+        usersFactory.logIn($scope.logInData).then( res =>{
+            if( res.data.length > 0 ){
+                $sessionStorage.userData = res.data[0];
+                $state.go('dashboards.dashboard_1');
+            }
+        })
     }
+}
+
+function usersCtrl($scope,usersFactory,DTOptionsBuilder,notify){
+
 
     $scope.user = {
         ID_Empresa:5,
@@ -3676,4 +3685,5 @@ angular
     .controller('datamapsCtrl', datamapsCtrl)
     .controller('pdfCtrl', pdfCtrl)
     .controller('passwordMeterCtrl', passwordMeterCtrl)
-    .controller('usersCtrl',usersCtrl);
+    .controller('usersCtrl',usersCtrl)
+    .controller('logInCtrl',logInCtrl);
