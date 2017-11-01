@@ -3533,19 +3533,34 @@ function passwordMeterCtrl($scope){
 }
 
 function logInCtrl($scope,usersFactory,$sessionStorage,$state){
+    
+    if( $sessionStorage.userData != undefined ){
+        $scope.userData = $sessionStorage.userData;
+        //$state.go('dashboards.dashboard_1');
+    }
+    
     $scope.logIn = function(){
         usersFactory.logIn($scope.logInData).then( res =>{
             if( res.data.length > 0 ){
                 $sessionStorage.userData = res.data[0];
                 $state.go('dashboards.dashboard_1');
             }
+            else{
+                alert("Los datos no son validos!!")
+            }
         })
     }
+
+    $scope.logOut = function(){
+        delete $sessionStorage.userData;
+        $state.go('logins');
+    }
+
 }
 
 function usersCtrl($scope,usersFactory,DTOptionsBuilder,notify){
 
-
+    
     $scope.user = {
         ID_Empresa:5,
         ID_Rol:3,
@@ -3638,6 +3653,76 @@ function usersCtrl($scope,usersFactory,DTOptionsBuilder,notify){
     ]);
 }
 
+function segmentoCtrl($scope,segmentoFactory,DTOptionsBuilder,notify){
+   
+      $scope.get = function(){
+        segmentoFactory.get().then( res =>{
+          $scope.listaSegmentos = res.data;
+        });
+      }
+  
+      $scope.delete = (user,index) =>{
+          segmentoFactory.delete(user.ID_Usuario).then( res =>{
+              if( res.status == 200 ){
+                  if( res.data == 1 ){
+                      notify({ message: 'Usuario Eliminado', classes: 'alert-success',templateUrl: 'views/common/notify.html'});
+                      removeFromArray($scope.usersList,index)
+                  }
+                  else{
+                      notify({ message: 'No se pudo eliminar', classes: 'alert-warning',templateUrl: 'views/common/notify.html'});
+                  }
+              }
+              else{
+                  notify({ message: 'Hubo un error', classes: 'alert-danger',templateUrl: 'views/common/notify.html'});
+              }
+          })
+      }
+  
+      $scope.create = ()=>{
+          egmentoFactory.create(fd).then( res=>{
+              if(res.status == 200){
+                  if (res.data.id != undefined){
+                      notify({ message: 'Usuario Creado', classes: 'alert-success',templateUrl: 'views/common/notify.html'});
+                      $state.go('users.index');
+                  }
+                  else{
+                      notify({ message: 'No se pudo guardar', classes: 'alert-warning',templateUrl: 'views/common/notify.html'});
+                  }
+              }
+              else{
+                  notify({ message: 'Hubo un error', classes: 'alert-danger',templateUrl: 'views/common/notify.html'});
+              }
+          })
+      }
+  
+      function removeFromArray(array, index){
+          array.splice(index, 1);
+      }
+  
+      function getColor(color){
+        return {"background-color":`${color}`}
+      }
+
+      $scope.dtOptions = DTOptionsBuilder.newOptions()
+      .withDOM('<"html5buttons"B>lTfgitp')
+      .withButtons([
+          {extend: 'copy'},
+          {extend: 'csv'},
+          {extend: 'excel', title: 'ExampleFile'},
+          {extend: 'pdf', title: 'ExampleFile'},
+  
+          {extend: 'print',
+              customize: function (win){
+                  $(win.document.body).addClass('white-bg');
+                  $(win.document.body).css('font-size', '10px');
+  
+                  $(win.document.body).find('table')
+                      .addClass('compact')
+                      .css('font-size', 'inherit');
+              }
+          }
+      ]);
+}
 /**
  *
  * Pass all functions into module
@@ -3686,4 +3771,5 @@ angular
     .controller('pdfCtrl', pdfCtrl)
     .controller('passwordMeterCtrl', passwordMeterCtrl)
     .controller('usersCtrl',usersCtrl)
-    .controller('logInCtrl',logInCtrl);
+    .controller('logInCtrl',logInCtrl)
+    .controller('segmentoCtrl',segmentoCtrl);
