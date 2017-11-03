@@ -3653,7 +3653,7 @@ function usersCtrl($scope,usersFactory,DTOptionsBuilder,notify){
     ]);
 }
 
-function segmentoCtrl($scope,segmentoFactory,DTOptionsBuilder,notify){
+function segmentoCtrl($scope,segmentoFactory,DTOptionsBuilder,notify,$state){
    
       $scope.get = function(){
         segmentoFactory.get().then( res =>{
@@ -3661,16 +3661,11 @@ function segmentoCtrl($scope,segmentoFactory,DTOptionsBuilder,notify){
         });
       }
   
-      $scope.delete = (user,index) =>{
-          segmentoFactory.delete(user.ID_Usuario).then( res =>{
+      $scope.delete = (segmento,index) =>{
+          segmentoFactory.delete(segmento.ID_Segmento).then( res =>{
               if( res.status == 200 ){
-                  if( res.data == 1 ){
-                      notify({ message: 'Usuario Eliminado', classes: 'alert-success',templateUrl: 'views/common/notify.html'});
-                      removeFromArray($scope.usersList,index)
-                  }
-                  else{
-                      notify({ message: 'No se pudo eliminar', classes: 'alert-warning',templateUrl: 'views/common/notify.html'});
-                  }
+                      notify({ message: 'Segmento Eliminado', classes: 'alert-success',templateUrl: 'views/common/notify.html'});
+                      removeFromArray($scope.listaSegmentos,index)
               }
               else{
                   notify({ message: 'Hubo un error', classes: 'alert-danger',templateUrl: 'views/common/notify.html'});
@@ -3679,11 +3674,18 @@ function segmentoCtrl($scope,segmentoFactory,DTOptionsBuilder,notify){
       }
   
       $scope.create = ()=>{
-          egmentoFactory.create(fd).then( res=>{
-              if(res.status == 200){
-                  if (res.data.id != undefined){
-                      notify({ message: 'Usuario Creado', classes: 'alert-success',templateUrl: 'views/common/notify.html'});
-                      $state.go('users.index');
+        var file = $scope.Image;
+        var fd = new FormData();
+        fd.append('Image' , file);
+        fd.append('Nombre_Segmento', $scope.segmento.Nombre_Segmento);
+        fd.append('Descripcion_Segmento',$scope.segmento.Descripcion_Segmento);
+        fd.append('Color',$scope.segmento.Color);
+
+          segmentoFactory.create(fd).then( res=>{
+              if(res.status == 201){
+                  if (res.data.ID_Segmento != undefined){
+                      notify({ message: 'Segmento Creado', classes: 'alert-success',templateUrl: 'views/common/notify.html'});
+                      $state.go('segmento.index');
                   }
                   else{
                       notify({ message: 'No se pudo guardar', classes: 'alert-warning',templateUrl: 'views/common/notify.html'});
@@ -3723,6 +3725,88 @@ function segmentoCtrl($scope,segmentoFactory,DTOptionsBuilder,notify){
           }
       ]);
 }
+
+function empresaCtrl($scope,empresaFactory,segmentoFactory,DTOptionsBuilder,notify,$state){
+    
+       $scope.get = function(){
+        empresaFactory.get().then( res =>{
+           $scope.listaEmpresas = res.data;
+         });    
+       }
+
+       $scope.getSegmentos = function(){
+            segmentoFactory.get().then( res =>{
+              $scope.listaSegmentos = res.data;
+            });
+       }
+       
+   
+       $scope.delete = (emp,index) =>{
+        console.log(emp);
+        empresaFactory.delete(emp.ID_Empresa).then( res =>{
+               if( res.status == 200 ){
+                       notify({ message: 'Empresa eliminada', classes: 'alert-success',templateUrl: 'views/common/notify.html'});
+                       removeFromArray($scope.listaEmpresas,index)
+               }
+               else{
+                   notify({ message: 'Hubo un error', classes: 'alert-danger',templateUrl: 'views/common/notify.html'});
+               }
+           })
+       }
+   
+       $scope.create = ()=>{
+            var file = $scope.Logo;
+            var fd = new FormData();
+            fd.append('Image' , file);
+            fd.append('Nombre_Empresa', $scope.Empresa.Nombre_Empresa);
+            fd.append('Direccion',$scope.Empresa.Direccion);
+            fd.append('Telefono',$scope.Empresa.Telefono);
+            fd.append('ID_Segmento', $scope.Empresa.ID_Segmento);
+
+            empresaFactory.create(fd).then( res=>{
+                if(res.status == 201){
+                    if (res.data.ID_Empresa != undefined){
+                        notify({ message: 'Empresa Creado', classes: 'alert-success',templateUrl: 'views/common/notify.html'});
+                        $state.go('empresa.index');
+                    }
+                    else{
+                        notify({ message: 'No se pudo guardar', classes: 'alert-warning',templateUrl: 'views/common/notify.html'});
+                    }
+                }
+                else{
+                    notify({ message: 'Hubo un error', classes: 'alert-danger',templateUrl: 'views/common/notify.html'});
+                }
+            })
+        }
+   
+       function removeFromArray(array, index){
+           array.splice(index, 1);
+       }
+   
+       function getColor(color){
+         return {"background-color":`${color}`}
+       }
+ 
+       $scope.dtOptions = DTOptionsBuilder.newOptions()
+       .withDOM('<"html5buttons"B>lTfgitp')
+       .withButtons([
+           {extend: 'copy'},
+           {extend: 'csv'},
+           {extend: 'excel', title: 'ExampleFile'},
+           {extend: 'pdf', title: 'ExampleFile'},
+   
+           {extend: 'print',
+               customize: function (win){
+                   $(win.document.body).addClass('white-bg');
+                   $(win.document.body).css('font-size', '10px');
+   
+                   $(win.document.body).find('table')
+                       .addClass('compact')
+                       .css('font-size', 'inherit');
+               }
+           }
+       ]);
+ }
 /**
  *
  * Pass all functions into module
@@ -3772,4 +3856,5 @@ angular
     .controller('passwordMeterCtrl', passwordMeterCtrl)
     .controller('usersCtrl',usersCtrl)
     .controller('logInCtrl',logInCtrl)
-    .controller('segmentoCtrl',segmentoCtrl);
+    .controller('segmentoCtrl',segmentoCtrl)
+    .controller('empresaCtrl', empresaCtrl);

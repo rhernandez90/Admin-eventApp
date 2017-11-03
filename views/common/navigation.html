@@ -1,25 +1,25 @@
-<nav class="navbar-default navbar-static-side" role="navigation">
+<nav class="navbar-default navbar-static-side" role="navigation" ng-controller="logInCtrl">
     <div class="sidebar-collapse">
         <ul side-navigation class="nav metismenu" id="side-menu">
             <li class="nav-header">
 
                 <div class="profile-element" uib-dropdown>
-                    <img alt="image" class="img-circle" src="img/profile_small.jpg"/>
+                    <img alt="image" class="img-circle" ng-src="{{userData.Imagen_Perfil}}" width="150" height="150"/>
                     <a uib-dropdown-toggle href>
                             <span class="clear">
                                 <span class="block m-t-xs">
-                                    <strong class="font-bold">David Williams</strong>
-                             </span>
+                                    <strong class="font-bold">{{ userData.Nombre_Usuario + " " + userData.Apellido_Usuario }}</strong>
+                             <!--</span>
                                 <span class="text-muted text-xs block">Art Director <b class="caret"></b></span>
-                            </span>
+                            </span>-->
                     </a>
-                    <ul uib-dropdown-menu class="animated fadeInRight m-t-xs">
+                    <!--<ul uib-dropdown-menu class="animated fadeInRight m-t-xs">
                         <li><a ui-sref="app.profile">Profile</a></li>
                         <li><a ui-sref="app.contacts">Contacts</a></li>
                         <li><a ui-sref="mailbox.inbox">Mailbox</a></li>
                         <li class="divider"></li>
                         <li><a ui-sref="login">Logout</a></li>
-                    </ul>
+                    </ul>-->
                 </div>
                 <div class="logo-element">
                     IN+
@@ -36,8 +36,15 @@
                 </ul>
             </li>
             <li ui-sref-active="active">
-                <a ui-sref="layouts"><i class="fa fa-diamond"></i> <span class="nav-label">{{ 'LAYOUTS' | translate }}</span> </a>
+                <a ui-sref="users.index"><i class="fa fa-diamond"></i> <span class="nav-label">Usuarios</span> </a>
             </li>
+            <li ui-sref-active="active">
+                <a ui-sref="segmento.index"><i class="fa fa-diamond"></i> <span class="nav-label">Segmentos</span> </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="empresa.index"><i class="fa fa-diamond"></i> <span class="nav-label">Empresa</span> </a>
+            </li>
+
 
             <li ng-class="{active: $state.includes('charts')}">
                 <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">{{ 'GRAPHS' | translate }}</span><span class="fa arrow"></span></a>

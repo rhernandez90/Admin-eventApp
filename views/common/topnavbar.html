@@ -1,4 +1,4 @@
-<div class="row border-bottom">
+<div class="row border-bottom" ng-controller="logInCtrl">
     <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
         <div class="navbar-header">
             <span minimaliza-sidebar></span>
@@ -120,7 +120,7 @@
                 </ul>
             </li>
             <li>
-                <a ui-sref="login">
+                <a ng-click="logOut()">
                     <i class="fa fa-sign-out"></i> Log out
                 </a>
             </li>
