@@ -3558,9 +3558,9 @@ function logInCtrl($scope,usersFactory,$sessionStorage,$state){
 
 }
 
-function usersCtrl($scope,usersFactory,DTOptionsBuilder,notify){
+function usersCtrl($scope,usersFactory,empresaFactory,DTOptionsBuilder,notify,$state){
 
-    
+    //alert('hola');
     $scope.user = {
         ID_Empresa:5,
         ID_Rol:3,
@@ -3572,13 +3572,19 @@ function usersCtrl($scope,usersFactory,DTOptionsBuilder,notify){
         $scope.listaUsuarios = res.data;
       });
     }
+    
+    $scope.getEmpresas = function(){
+      empresaFactory.get().then( res =>{
+        $scope.listaEmpresas = res.data;
+      });
+    }
 
     $scope.delete = (user,index) =>{
         usersFactory.delete(user.ID_Usuario).then( res =>{
             if( res.status == 200 ){
                 if( res.data == 1 ){
                     notify({ message: 'Usuario Eliminado', classes: 'alert-success',templateUrl: 'views/common/notify.html'});
-                    removeFromArray($scope.usersList,index)
+                    removeFromArray($scope.listaUsuarios,index)
                 }
                 else{
                     notify({ message: 'No se pudo eliminar', classes: 'alert-warning',templateUrl: 'views/common/notify.html'});
@@ -3595,7 +3601,7 @@ function usersCtrl($scope,usersFactory,DTOptionsBuilder,notify){
         var fd = new FormData();
         fd.append('Image' , file);
         fd.append('Imagen_Perfil' , "");
-        fd.append('ID_Empresa'    , 5);
+        fd.append('ID_Empresa'    , $scope.user.ID_Empresa);
         fd.append('ID_Rol', 3);
         fd.append('Nombre_Usuario', $scope.user.Nombre_Usuario);
         fd.append('Apellido_Usuario',$scope.user.Apellido_Usuario);
@@ -3612,8 +3618,8 @@ function usersCtrl($scope,usersFactory,DTOptionsBuilder,notify){
         fd.append('Fecha_Nacimiento', nuevaFecha);
 
         usersFactory.create(fd).then( res=>{
-            if(res.status == 200){
-                if (res.data.id != undefined){
+            if(res.status == 201){
+                if (res.data.ID_Usuario != undefined){
                     notify({ message: 'Usuario Creado', classes: 'alert-success',templateUrl: 'views/common/notify.html'});
                     $state.go('users.index');
                 }
