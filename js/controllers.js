@@ -3813,7 +3813,90 @@ function empresaCtrl($scope,empresaFactory,segmentoFactory,DTOptionsBuilder,noti
            }
        ]);
  }
-/**
+
+ function eventoCtrl($scope,eventosFactory,empresaFactory,DTOptionsBuilder,notify,$state){
+    
+       $scope.get = function(){
+        eventosFactory.get().then( res =>{
+           $scope.listaEventos = res.data;
+         });    
+       }
+
+       $scope.getSegmentos = function(){
+            segmentoFactory.get().then( res =>{
+              $scope.listaSegmentos = res.data;
+            });
+       }
+       
+   
+       $scope.delete = (even,index) =>{
+        eventosFactory.delete(even.ID_Evento).then( res =>{
+               if( res.status == 200 ){
+                       notify({ message: 'Evento eliminado', classes: 'alert-success',templateUrl: 'views/common/notify.html'});
+                       removeFromArray($scope.listaEventos,index)
+               }
+               else{
+                   notify({ message: 'Hubo un error', classes: 'alert-danger',templateUrl: 'views/common/notify.html'});
+               }
+           })
+       }
+   
+       $scope.create = ()=>{
+            var file = $scope.Logo;
+            var fd = new FormData();
+            fd.append('Image' , file);
+            fd.append('Nombre_Empresa', $scope.Empresa.Nombre_Empresa);
+            fd.append('Direccion',$scope.Empresa.Direccion);
+            fd.append('Telefono',$scope.Empresa.Telefono);
+            fd.append('ID_Segmento', $scope.Empresa.ID_Segmento);
+
+            empresaFactory.create(fd).then( res=>{
+                if(res.status == 201){
+                    if (res.data.ID_Empresa != undefined){
+                        notify({ message: 'Empresa Creado', classes: 'alert-success',templateUrl: 'views/common/notify.html'});
+                        $state.go('empresa.index');
+                    }
+                    else{
+                        notify({ message: 'No se pudo guardar', classes: 'alert-warning',templateUrl: 'views/common/notify.html'});
+                    }
+                }
+                else{
+                    notify({ message: 'Hubo un error', classes: 'alert-danger',templateUrl: 'views/common/notify.html'});
+                }
+            })
+        }
+   
+       function removeFromArray(array, index){
+           array.splice(index, 1);
+       }
+   
+       function getColor(color){
+         return {"background-color":`${color}`}
+       }
+ 
+       $scope.dtOptions = DTOptionsBuilder.newOptions()
+       .withDOM('<"html5buttons"B>lTfgitp')
+       .withButtons([
+           {extend: 'copy'},
+           {extend: 'csv'},
+           {extend: 'excel', title: 'ExampleFile'},
+           {extend: 'pdf', title: 'ExampleFile'},
+   
+           {extend: 'print',
+               customize: function (win){
+                   $(win.document.body).addClass('white-bg');
+                   $(win.document.body).css('font-size', '10px');
+   
+                   $(win.document.body).find('table')
+                       .addClass('compact')
+                       .css('font-size', 'inherit');
+               }
+           }
+       ]);
+ }
+
+
+ /**
  *
  * Pass all functions into module
  */
@@ -3863,4 +3946,5 @@ angular
     .controller('usersCtrl',usersCtrl)
     .controller('logInCtrl',logInCtrl)
     .controller('segmentoCtrl',segmentoCtrl)
-    .controller('empresaCtrl', empresaCtrl);
+    .controller('empresaCtrl', empresaCtrl)
+    .controller('eventoCtrl',eventoCtrl);

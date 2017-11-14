@@ -1,0 +1,69 @@
+<div class="row wrapper border-bottom white-bg page-heading" ng-init="get()">
+    <div class="col-lg-8">
+        <h2>Lista de eventos</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.html">Home</a>
+            </li>
+            <li class="active">
+                <strong>Lista de eventos</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-4">
+        <div class="text-right" style="padding-top: 3em">
+            <a class="btn btn-primary" ui-sref="evento.create">Crear Evento</a>
+        </div>
+    </div>
+
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+
+                    <div ibox-tools></div>
+                </div>
+                <div class="ibox-content">
+                    <table datatable="ng" dt-options="dtOptions" class="table table-striped table-bordered table-hover dataTables-example">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Nombre Evento</th>
+                                <th>Descripcion</th>
+                                <th>Banner</th>
+                                <th>Inicio</th>
+                                <th>Fin</th>
+                                <th>Empresa</th>
+                                <th>Categoria</th>
+                                <th>Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="even in listaEventos">
+                                <td>{{ even.ID_Evento}}</td>
+                                <td>{{ even.Nombre_Evento }}</td>
+                                <td>{{ even.Descripcion_Evento }}</td>
+                                <td class="text-center"> <img ng-src="{{even.Banner_Evento}}" width="230" height="150"> </td>
+                                <td>{{ even.Inicio_Evento }}</td>
+                                <td>{{ even.Fin_Evento }}</td>
+                                <td>{{ even.Nombre_Empresa }}</td>
+                                <td>{{ even.Nombre_Categoria }}</td>
+                                <td class="text-right">
+                                        <a class="btn btn-xs btn-success" ui-sref="users.update({id:emp.ID_Empresa})">
+                                            <span class="fa fa-eye"></span>
+                                        </a>
+                                        <button class="btn btn-xs btn-danger" ng-click="delete(even,$index)">
+                                            <span class="fa fa-trash-o" ></span>
+                                        </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

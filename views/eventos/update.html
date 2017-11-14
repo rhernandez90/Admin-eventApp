@@ -1,0 +1,71 @@
+<div class="row wrapper border-bottom white-bg page-heading" ng-init="initUpdate()">
+    <div class="col-lg-8">
+        <h2>Crear Usuario</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.html">Home</a>
+            </li>
+            <li>
+                <a ui-sref="users.index">Lista Usuarios</a>
+            </li>
+            <li class="active">
+                <strong>Ver Usuario</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-offset-2 col-lg-8">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    Formulario de clientes
+                </div>
+                <div class="ibox-content">
+                    <form  class="form-horizontal" ng-submit="save()">
+                        <div class="form-group"><label class="col-sm-2 control-label">Usuario:</label>
+                            <div class="col-sm-10"><input type="text" class="form-control" ng-model="user.user_name" required></div>
+                        </div>
+
+                        <div class="form-group"><label class="col-sm-2 control-label">Correo:</label>
+                            <div class="col-sm-10"><input type="email" class="form-control" ng-model="user.email" required></div>
+                        </div>
+
+
+                        <div class="form-group"><label class="col-sm-2 control-label">Contraseña:</label>
+                            <div class="col-sm-10"><input type="{{inputPassType}}" class="form-control" ng-model="user.password" required></div>
+                        </div>
+
+                        <div class="form-group"><label class="col-sm-2 control-label">Empresa:</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" ng-model="user.company_id">
+                                    <option ng-repeat="company in companiesList" value="{{company.id}}">{{company.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group"><label class="col-sm-2 control-label">Celular #:</label>
+                            <div class="col-sm-10"><input type="tel" class="form-control" ng-model="user.phone_number"></div>
+                        </div>
+
+                        <div class="form-group"><label class="col-sm-2 control-label">Tipo:</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" ng-model="user.user_type">
+                                    <option value="user">User</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-2">
+                                <button type="submit" ladda="loadingDemo" class="ladda-button ladda-button-demo btn btn-primary"  data-style="expand-right">Guardar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1772,6 +1772,101 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
             },
 
         })
+        .state('evento', {
+            abstract: true,
+            url: "/evento",
+            templateUrl: "views/common/content.html",
+        })
+        .state('evento.index', {
+            url: "",
+            templateUrl: "views/eventos/index.html",
+            controller:eventoCtrl,
+            resolve: {
+                loadPlugin: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            serie: true,
+                            files: ['js/plugins/dataTables/datatables.min.js','css/plugins/dataTables/datatables.min.css']
+                        },
+                        {
+                            serie: true,
+                            name: 'datatables',
+                            files: ['js/plugins/dataTables/angular-datatables.min.js']
+                        },
+                        {
+                            serie: true,
+                            name: 'datatables.buttons',
+                            files: ['js/plugins/dataTables/angular-datatables.buttons.min.js']
+                        },
+                        {
+                            name: 'cgNotify',
+                            files: ['css/plugins/angular-notify/angular-notify.min.css','js/plugins/angular-notify/angular-notify.min.js']
+                        }
+                    ]);
+                }
+            }
+        })
+        .state('evento.create', {
+            url: "/create",
+            templateUrl: "views/eventos/create.html",
+            controller:eventoCtrl,
+            resolve: {
+                loadPlugin: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            serie: true,
+                            files: ['js/plugins/dataTables/datatables.min.js','css/plugins/dataTables/datatables.min.css']
+                        },
+                        {
+                            serie: true,
+                            name: 'datatables',
+                            files: ['js/plugins/dataTables/angular-datatables.min.js']
+                        },
+                        {
+                            serie: true,
+                            name: 'datatables.buttons',
+                            files: ['js/plugins/dataTables/angular-datatables.buttons.min.js']
+                        },
+                        ,
+                        {
+                            name: 'cgNotify',
+                            files: ['css/plugins/angular-notify/angular-notify.min.css','js/plugins/angular-notify/angular-notify.min.js']
+                        }
+                    ]);
+                }
+            }
+        })
+        .state('evento.update', {
+            url: "/update/:id",
+            templateUrl: "views/eventos/update.html",
+            controller:eventoCtrl,
+            resolve: {
+                loadPlugin: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            serie: true,
+                            files: ['js/plugins/dataTables/datatables.min.js','css/plugins/dataTables/datatables.min.css']
+                        },
+                        {
+                            serie: true,
+                            name: 'datatables',
+                            files: ['js/plugins/dataTables/angular-datatables.min.js']
+                        },
+                        {
+                            serie: true,
+                            name: 'datatables.buttons',
+                            files: ['js/plugins/dataTables/angular-datatables.buttons.min.js']
+                        },
+                        ,
+                        {
+                            name: 'cgNotify',
+                            files: ['css/plugins/angular-notify/angular-notify.min.css','js/plugins/angular-notify/angular-notify.min.js']
+                        }
+                    ]);
+                }
+            },
+
+        })
 }
 angular
     .module('inspinia')
