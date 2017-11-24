@@ -3607,15 +3607,15 @@ function usersCtrl($scope,usersFactory,empresaFactory,DTOptionsBuilder,notify,$s
         fd.append('Apellido_Usuario',$scope.user.Apellido_Usuario);
         fd.append('Correo_Electronico',$scope.user.Correo_Electronico);
         fd.append('Contrasena', $scope.user.Contrasena);
-
+        /*
         var dateTemp = new Date($scope.user.Fecha_Nacimiento);
         var dia = dateTemp.getDate();
         var mes = dateTemp.getMonth();
         mes++;
         var anio = dateTemp.getFullYear();
         var nuevaFecha = dia + "/" + mes + "/" + anio;
-
-        fd.append('Fecha_Nacimiento', nuevaFecha);
+        */
+        fd.append('Fecha_Nacimiento', $scope.user.Fecha_Nacimiento.toLocaleDateString());
 
         usersFactory.create(fd).then( res=>{
             if(res.status == 201){
@@ -3816,15 +3816,18 @@ function empresaCtrl($scope,empresaFactory,segmentoFactory,DTOptionsBuilder,noti
 
  function eventoCtrl($scope,eventosFactory,empresaFactory,DTOptionsBuilder,notify,$state){
     
+    $scope.evento = {};
+    $scope.evento.fInicio = new Date();
+    $scope.evento.fFin = new Date();
        $scope.get = function(){
         eventosFactory.get().then( res =>{
            $scope.listaEventos = res.data;
          });    
        }
 
-       $scope.getSegmentos = function(){
-            segmentoFactory.get().then( res =>{
-              $scope.listaSegmentos = res.data;
+       $scope.getEmpresas = function(){
+            empresaFactory.get().then( res =>{
+              $scope.listaEmpresas = res.data;
             });
        }
        
@@ -3842,19 +3845,107 @@ function empresaCtrl($scope,empresaFactory,segmentoFactory,DTOptionsBuilder,noti
        }
    
        $scope.create = ()=>{
-            var file = $scope.Logo;
+            var file = $scope.evento.Banner_Evento;
             var fd = new FormData();
             fd.append('Image' , file);
-            fd.append('Nombre_Empresa', $scope.Empresa.Nombre_Empresa);
-            fd.append('Direccion',$scope.Empresa.Direccion);
-            fd.append('Telefono',$scope.Empresa.Telefono);
-            fd.append('ID_Segmento', $scope.Empresa.ID_Segmento);
+            fd.append('Nombre_Evento', $scope.evento.Nombre_Evento);
+            fd.append('Descripcion_Evento',$scope.evento.Descripcion_Evento);
+            fd.append('Inicio_Evento',$scope.evento.fInicio.toLocaleDateString());
+            fd.append('Fin_Evento',$scope.evento.fFin.toLocaleDateString());
+            fd.append('ID_Empresa', $scope.evento.ID_Empresa);
+            fd.append('ID_Categoria', 3);
+            fd.append('Direccion', $scope.evento.Direccion);
 
-            empresaFactory.create(fd).then( res=>{
+            eventosFactory.create(fd).then( res=>{
                 if(res.status == 201){
-                    if (res.data.ID_Empresa != undefined){
-                        notify({ message: 'Empresa Creado', classes: 'alert-success',templateUrl: 'views/common/notify.html'});
-                        $state.go('empresa.index');
+                    if (res.data.ID_Evento != undefined){
+                        notify({ message: 'Evento Creado', classes: 'alert-success',templateUrl: 'views/common/notify.html'});
+                        $state.go('evento.index');
+                    }
+                    else{
+                        notify({ message: 'No se pudo guardar', classes: 'alert-warning',templateUrl: 'views/common/notify.html'});
+                    }
+                }
+                else{
+                    notify({ message: 'Hubo un error', classes: 'alert-danger',templateUrl: 'views/common/notify.html'});
+                }
+            })
+        }
+   
+       function removeFromArray(array, index){
+           array.splice(index, 1);
+       }
+   
+       function getColor(color){
+         return {"background-color":`${color}`}
+       }
+ 
+       $scope.dtOptions = DTOptionsBuilder.newOptions()
+       .withDOM('<"html5buttons"B>lTfgitp')
+       .withButtons([
+           {extend: 'copy'},
+           {extend: 'csv'},
+           {extend: 'excel', title: 'ExampleFile'},
+           {extend: 'pdf', title: 'ExampleFile'},
+   
+           {extend: 'print',
+               customize: function (win){
+                   $(win.document.body).addClass('white-bg');
+                   $(win.document.body).css('font-size', '10px');
+   
+                   $(win.document.body).find('table')
+                       .addClass('compact')
+                       .css('font-size', 'inherit');
+               }
+           }
+       ]);
+ }
+
+function categoriaCtrl($scope,categoriaFactory,DTOptionsBuilder,notify,$state){
+    
+
+       $scope.get = function(){
+        categoriaFactory.get().then( res =>{
+           $scope.listaCategorias = res.data;
+         });    
+       }
+
+       $scope.getEmpresas = function(){
+            empresaFactory.get().then( res =>{
+              $scope.listaEmpresas = res.data;
+            });
+       }
+       
+   
+       $scope.delete = (cat,index) =>{
+        categoriaFactory.delete(cat.ID_Categoria).then( res =>{
+               if( res.status == 200 ){
+                       notify({ message: 'Evento eliminado', classes: 'alert-success',templateUrl: 'views/common/notify.html'});
+                       removeFromArray($scope.listaCategorias,index)
+               }
+               else{
+                   notify({ message: 'Hubo un error', classes: 'alert-danger',templateUrl: 'views/common/notify.html'});
+               }
+           })
+       }
+   
+       $scope.create = ()=>{
+            var file = $scope.evento.Banner_Evento;
+            var fd = new FormData();
+            fd.append('Image' , file);
+            fd.append('Nombre_Evento', $scope.evento.Nombre_Evento);
+            fd.append('Descripcion_Evento',$scope.evento.Descripcion_Evento);
+            fd.append('Inicio_Evento',$scope.evento.fInicio.toLocaleDateString());
+            fd.append('Fin_Evento',$scope.evento.fFin.toLocaleDateString());
+            fd.append('ID_Empresa', $scope.evento.ID_Empresa);
+            fd.append('ID_Categoria', 3);
+            fd.append('Direccion', $scope.evento.Direccion);
+
+            eventosFactory.create(fd).then( res=>{
+                if(res.status == 201){
+                    if (res.data.ID_Evento != undefined){
+                        notify({ message: 'Evento Creado', classes: 'alert-success',templateUrl: 'views/common/notify.html'});
+                        $state.go('evento.index');
                     }
                     else{
                         notify({ message: 'No se pudo guardar', classes: 'alert-warning',templateUrl: 'views/common/notify.html'});
@@ -3947,4 +4038,5 @@ angular
     .controller('logInCtrl',logInCtrl)
     .controller('segmentoCtrl',segmentoCtrl)
     .controller('empresaCtrl', empresaCtrl)
-    .controller('eventoCtrl',eventoCtrl);
+    .controller('eventoCtrl',eventoCtrl)
+    .controller('categoriaCtrl',categoriaCtrl);

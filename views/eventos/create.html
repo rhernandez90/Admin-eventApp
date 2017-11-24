@@ -14,7 +14,7 @@
         </ol>
     </div>
 </div>
-<div class="wrapper wrapper-content animated fadeInRight" ng-init="getSegmentos()">
+<div class="wrapper wrapper-content animated fadeInRight" ng-init="getEmpresas()">
     <div class="row">
         <div class="col-lg-offset-2 col-lg-8">
             <div class="ibox float-e-margins">
@@ -32,23 +32,40 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">Logo:</label>
+                            <label class="col-sm-2 control-label">Banner:</label>
                             <div class="col-sm-10">
-                                    <input type="file" file-model = "Logo" class="inputfile"/>
+                                    <input type="file" file-model = "evento.Banner_Evento" class="inputfile"/>
                             </div>
                         </div>
 
-                        <div class="form-group"><label class="col-sm-2 control-label">Telefono:</label>
-                            <div class="col-sm-10"><input type="tel" class="form-control" ng-model="Empresa.Telefono" required></div>
+                        <div class="form-group"><label class="col-sm-2 control-label">Fecha Inicio:</label>
+                            <div class="col-sm-10"><input type="date" class="form-control" ng-model="evento.fInicio" required></div>
                         </div>
 
-                        <div class="form-group"><label class="col-sm-2 control-label">Segmento:</label>
+                        <div class="form-group"><label class="col-sm-2 control-label">Fecha Fin:</label>
+                            <div class="col-sm-10"><input type="date" class="form-control" ng-model="evento.fFin" required></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Empresa:</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" ng-model="evento.ID_Empresa">
+                                        <option ng-repeat="option in listaEmpresas" value="{{option.ID_Empresa}}">{{option.Nombre_Empresa}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group"><label class="col-sm-2 control-label">Direccion:</label>
+                            <div class="col-sm-10"><input type="tel" class="form-control" ng-model="evento.Direccion" required></div>
+                        </div>
+
+                        <!--<div class="form-group"><label class="col-sm-2 control-label">Segmento:</label>
                             <div class="col-sm-10">
                                     <select name="repeatSelect" id="repeatSelect" class="form-control" ng-model="Empresa.ID_Segmento">
                                             <option ng-repeat="option in listaSegmentos" value="{{option.ID_Segmento}}">{{option.Nombre_Segmento}}</option>
                                     </select>
                             </div>
-                        </div>
+                        </div>-->
 
 
 
