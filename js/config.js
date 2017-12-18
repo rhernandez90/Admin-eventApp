@@ -726,7 +726,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
             url: "/logins",
             templateUrl: "views/login.html",
             controller:logInCtrl,
-            data: { pageTitle: 'Login', specialClass: 'gray-bg' }
+            data: { pageTitle: 'Login', specialClass: 'blue-bg' }
         })
         .state('login_two_columns', {
             url: "/login_two_columns",
@@ -1904,7 +1904,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
         })
         .state('categoria.create', {
             url: "/create",
-            templateUrl: "views/categorias/create.html",
+            templateUrl: "views/categoria/create.html",
             controller:categoriaCtrl,
             resolve: {
                 loadPlugin: function ($ocLazyLoad) {

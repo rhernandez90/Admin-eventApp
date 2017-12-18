@@ -3814,7 +3814,7 @@ function empresaCtrl($scope,empresaFactory,segmentoFactory,DTOptionsBuilder,noti
        ]);
  }
 
- function eventoCtrl($scope,eventosFactory,empresaFactory,DTOptionsBuilder,notify,$state){
+ function eventoCtrl($scope,eventosFactory,empresaFactory,categoriaFactory,DTOptionsBuilder,notify,$state){
     
     $scope.evento = {};
     $scope.evento.fInicio = new Date();
@@ -3830,7 +3830,11 @@ function empresaCtrl($scope,empresaFactory,segmentoFactory,DTOptionsBuilder,noti
               $scope.listaEmpresas = res.data;
             });
        }
-       
+       $scope.getCategorias = ()=>{
+            categoriaFactory.get().then( res=> {
+                $scope.listaCategorias = res.data;
+            });
+       }
    
        $scope.delete = (even,index) =>{
         eventosFactory.delete(even.ID_Evento).then( res =>{
@@ -3909,13 +3913,6 @@ function categoriaCtrl($scope,categoriaFactory,DTOptionsBuilder,notify,$state){
            $scope.listaCategorias = res.data;
          });    
        }
-
-       $scope.getEmpresas = function(){
-            empresaFactory.get().then( res =>{
-              $scope.listaEmpresas = res.data;
-            });
-       }
-       
    
        $scope.delete = (cat,index) =>{
         categoriaFactory.delete(cat.ID_Categoria).then( res =>{
@@ -3930,22 +3927,18 @@ function categoriaCtrl($scope,categoriaFactory,DTOptionsBuilder,notify,$state){
        }
    
        $scope.create = ()=>{
-            var file = $scope.evento.Banner_Evento;
+            var file = $scope.categoria.logo;
             var fd = new FormData();
             fd.append('Image' , file);
-            fd.append('Nombre_Evento', $scope.evento.Nombre_Evento);
-            fd.append('Descripcion_Evento',$scope.evento.Descripcion_Evento);
-            fd.append('Inicio_Evento',$scope.evento.fInicio.toLocaleDateString());
-            fd.append('Fin_Evento',$scope.evento.fFin.toLocaleDateString());
-            fd.append('ID_Empresa', $scope.evento.ID_Empresa);
-            fd.append('ID_Categoria', 3);
-            fd.append('Direccion', $scope.evento.Direccion);
+            fd.append('Nombre_Categoria', $scope.categoria.Nombre_Categoria);
+            fd.append('Descripcion_Categoria',$scope.categoria.Descripcion_Categoria);
+            fd.append('Color_Categoria',$scope.categoria.Color_Categoria);
 
-            eventosFactory.create(fd).then( res=>{
+            categoriaFactory.create(fd).then( res=>{
                 if(res.status == 201){
-                    if (res.data.ID_Evento != undefined){
-                        notify({ message: 'Evento Creado', classes: 'alert-success',templateUrl: 'views/common/notify.html'});
-                        $state.go('evento.index');
+                    if (res.data.ID_Categoria != undefined){
+                        notify({ message: 'Categoria Creado', classes: 'alert-success',templateUrl: 'views/common/notify.html'});
+                        $state.go('categoria.index');
                     }
                     else{
                         notify({ message: 'No se pudo guardar', classes: 'alert-warning',templateUrl: 'views/common/notify.html'});

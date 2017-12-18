@@ -4030,12 +4030,18 @@ table.table-mail tr td {
 .gray-bg,
 .bg-muted {
   background-color: #f3f3f4;
+  
 }
 .white-bg {
   background-color: #ffffff;
 }
 .blue-bg,
 .bg-success {
+  background-image: url("../img/San_Pedro_Sula.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  
   background-color: #1c84c6;
   color: #ffffff;
 }

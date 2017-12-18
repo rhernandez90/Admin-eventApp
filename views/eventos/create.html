@@ -14,7 +14,7 @@
         </ol>
     </div>
 </div>
-<div class="wrapper wrapper-content animated fadeInRight" ng-init="getEmpresas()">
+<div class="wrapper wrapper-content animated fadeInRight" ng-init="getEmpresas(); getCategorias();">
     <div class="row">
         <div class="col-lg-offset-2 col-lg-8">
             <div class="ibox float-e-margins">
@@ -51,6 +51,15 @@
                             <div class="col-sm-10">
                                 <select class="form-control" ng-model="evento.ID_Empresa">
                                         <option ng-repeat="option in listaEmpresas" value="{{option.ID_Empresa}}">{{option.Nombre_Empresa}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Categoria</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" ng-model="evento.ID_Categoria">
+                                    <option ng-repeat="cat in listaCategorias" value="{{cat.ID_Categoria}}">{{cat.Nombre_Categoria}}</option>
                                 </select>
                             </div>
                         </div>
