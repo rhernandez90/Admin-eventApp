@@ -3543,7 +3543,8 @@ function logInCtrl($scope,usersFactory,$sessionStorage,$state){
         usersFactory.logIn($scope.logInData).then( res =>{
             if( res.data.length > 0 ){
                 $sessionStorage.userData = res.data[0];
-                $state.go('dashboards.dashboard_1');
+                //$state.go('dashboards.dashboard_1');
+                $state.go('users.index');
             }
             else{
                 alert("Los datos no son validos!!")
