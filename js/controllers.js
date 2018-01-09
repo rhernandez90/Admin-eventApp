@@ -3536,15 +3536,18 @@ function logInCtrl($scope,usersFactory,$sessionStorage,$state){
     
     if( $sessionStorage.userData != undefined ){
         $scope.userData = $sessionStorage.userData;
-        //$state.go('dashboards.dashboard_1');
     }
     
     $scope.logIn = function(){
         usersFactory.logIn($scope.logInData).then( res =>{
             if( res.data.length > 0 ){
                 $sessionStorage.userData = res.data[0];
-                //$state.go('dashboards.dashboard_1');
-                $state.go('users.index');
+                if( $sessionStorage.userData.ID_Rol == 1){
+                    $state.go('users.index');
+                }else{
+                    $state.go('evento.index');
+                }
+                
             }
             else{
                 alert("Los datos no son validos!!")
@@ -3815,13 +3818,16 @@ function empresaCtrl($scope,empresaFactory,segmentoFactory,DTOptionsBuilder,noti
        ]);
  }
 
- function eventoCtrl($scope,eventosFactory,empresaFactory,categoriaFactory,DTOptionsBuilder,notify,$state){
+ function eventoCtrl($scope,eventosFactory,empresaFactory,categoriaFactory,DTOptionsBuilder,notify,$state,$sessionStorage){
     
     $scope.evento = {};
     $scope.evento.fInicio = new Date();
     $scope.evento.fFin = new Date();
+    
+    let empresaId = $sessionStorage.userData.ID_Empresa;
+    console.log(empresaId);
        $scope.get = function(){
-        eventosFactory.get().then( res =>{
+        eventosFactory.get({ID_Empresa:empresaId}).then( res =>{
            $scope.listaEventos = res.data;
          });    
        }
@@ -3857,10 +3863,11 @@ function empresaCtrl($scope,empresaFactory,segmentoFactory,DTOptionsBuilder,noti
             fd.append('Descripcion_Evento',$scope.evento.Descripcion_Evento);
             fd.append('Inicio_Evento',$scope.evento.fInicio.toLocaleDateString());
             fd.append('Fin_Evento',$scope.evento.fFin.toLocaleDateString());
-            fd.append('ID_Empresa', $scope.evento.ID_Empresa);
+            fd.append('ID_Empresa', empresaId);
             fd.append('ID_Categoria', 3);
             fd.append('Direccion', $scope.evento.Direccion);
-
+            //console.log(fd);
+            //return false;
             eventosFactory.create(fd).then( res=>{
                 if(res.status == 201){
                     if (res.data.ID_Evento != undefined){
@@ -3906,7 +3913,8 @@ function empresaCtrl($scope,empresaFactory,segmentoFactory,DTOptionsBuilder,noti
        ]);
  }
 
-function categoriaCtrl($scope,categoriaFactory,DTOptionsBuilder,notify,$state){
+
+ function categoriaCtrl($scope,categoriaFactory,DTOptionsBuilder,notify,$state){
     
 
        $scope.get = function(){

@@ -1963,6 +1963,40 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
             },
 
         })
+        .state('estadistica', {
+            abstract: true,
+            url: "/estadistica",
+            templateUrl: "views/common/content.html",
+        })
+        .state('estadistica.index', {
+            url: "",
+            templateUrl: "views/estadisticas/index.html",
+            controller:eventoCtrl,
+            resolve: {
+                loadPlugin: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            serie: true,
+                            files: ['js/plugins/dataTables/datatables.min.js','css/plugins/dataTables/datatables.min.css']
+                        },
+                        {
+                            serie: true,
+                            name: 'datatables',
+                            files: ['js/plugins/dataTables/angular-datatables.min.js']
+                        },
+                        {
+                            serie: true,
+                            name: 'datatables.buttons',
+                            files: ['js/plugins/dataTables/angular-datatables.buttons.min.js']
+                        },
+                        {
+                            name: 'cgNotify',
+                            files: ['css/plugins/angular-notify/angular-notify.min.css','js/plugins/angular-notify/angular-notify.min.js']
+                        }
+                    ]);
+                }
+            }
+        })
 }
 angular
     .module('inspinia')

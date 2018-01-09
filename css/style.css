@@ -1248,6 +1248,11 @@ button.dim:active:before {
   border: 1px solid #e5e6e7;
   box-shadow: none;
 }
+
+.fa-star-o{
+  color: yellow;
+}
+
 /* PAGINATIN */
 .pagination > .active > a,
 .pagination > .active > span,
@@ -8566,3 +8571,4 @@ body.md-skin {
     margin: 0;
   }
 }
+
